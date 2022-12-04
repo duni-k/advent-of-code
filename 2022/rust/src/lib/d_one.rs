@@ -1,4 +1,7 @@
-pub fn get_top_calories(lines: impl Iterator<Item = String>, nr_of_elves: usize) -> usize {
+pub fn get_top_calories<L>(lines: L, nr_of_elves: usize) -> usize
+where
+    L: Iterator<Item = String>,
+{
     let mut top_sums = vec![usize::min_value(); nr_of_elves];
     let mut curr_sum = 0;
     for line in lines {
