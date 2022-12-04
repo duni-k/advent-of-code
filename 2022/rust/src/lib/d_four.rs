@@ -1,10 +1,16 @@
-pub fn count_supersets(lines: impl Iterator<Item = String>) -> usize {
+pub fn count_supersets<L>(lines: L) -> usize
+where
+    L: Iterator<Item = String>,
+{
     count_with_func(lines, |(a, b), (c, d)| {
         (a >= c && b <= d) || (c >= a && d <= b)
     })
 }
 
-pub fn count_intersections(lines: impl Iterator<Item = String>) -> usize {
+pub fn count_intersections<L>(lines: L) -> usize
+where
+    L: Iterator<Item = String>,
+{
     count_with_func(lines, has_intersection)
 }
 
@@ -15,8 +21,9 @@ fn has_intersection((lo1, hi1): &(usize, usize), (lo2, hi2): &(usize, usize)) ->
         || (hi2 >= lo1 && hi2 <= hi1)
 }
 
-fn count_with_func<F>(lines: impl Iterator<Item = String>, f: F) -> usize
+fn count_with_func<F, L>(lines: L, f: F) -> usize
 where
+    L: Iterator<Item = String>,
     F: Fn(&(usize, usize), &(usize, usize)) -> bool,
 {
     lines
