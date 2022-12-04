@@ -94,7 +94,7 @@ impl Move {
     }
 }
 
-pub fn count_score(line: &String) -> Option<Score> {
+pub fn count_score(line: &str) -> Option<usize> {
     let mut moves = line.chars().filter_map(|ch| {
         if ch.is_alphabetic() {
             Some(Move::from(ch))
@@ -109,14 +109,7 @@ pub fn count_score(line: &String) -> Option<Score> {
     }
 }
 
-pub fn process_games(
-    lines: impl Iterator<Item = String>,
-    f: impl Fn(&String) -> Option<Score>,
-) -> Score {
-    lines.filter_map(|line| f(&line)).sum()
-}
-
-pub fn infer_score(line: &String) -> Option<Score> {
+pub fn infer_score(line: &str) -> Option<Score> {
     let mut line = line.chars().filter(|ch| ch.is_alphabetic());
     if let (Some(fst), Some(snd)) = (line.next(), line.next()) {
         let opp_mv = Move::from(fst);
