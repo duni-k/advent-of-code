@@ -36,8 +36,8 @@ fn main() -> Result<()> {
             (2, 2) => core::filter_map_then_sum(d_two::infer_score, lines),
             (3, 1) => d_three::sacks_sum(lines),
             (3, 2) => d_three::badges_sum(lines),
-            (4, 1) => d_four::count_supersets(lines),
-            (4, 2) => d_four::count_intersections(lines),
+            (4, 1) => d_four::count(lines, d_four::includes_superset),
+            (4, 2) => d_four::count(lines, d_four::includes_intersection),
             _ => unreachable!(), // args.day > n is already covered in first match expression
         }
     );
