@@ -5,10 +5,11 @@ use std::{
 
 use anyhow::{anyhow, Result};
 
-pub fn filter_map_then_sum(
-    f: impl Fn(&'_ str) -> Option<usize>,
-    lines: impl Iterator<Item = String>,
-) -> usize {
+pub fn filter_map_then_sum<L, F>(lines: L, f: F) -> usize
+where
+    F: Fn(&'_ str) -> Option<usize>,
+    L: Iterator<Item = String>,
+{
     lines.filter_map(|line| f(&line)).sum()
 }
 

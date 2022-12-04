@@ -1,16 +1,5 @@
 type Range = (usize, usize);
 
-pub fn includes_superset((lo1, hi1): &Range, (lo2, hi2): &Range) -> bool {
-    (lo1 >= lo2 && hi1 <= hi2) || (lo2 >= lo1 && hi2 <= hi1)
-}
-
-pub fn includes_intersection((lo1, hi1): &Range, (lo2, hi2): &Range) -> bool {
-    (lo1 >= lo2 && lo1 <= hi2)
-        || (hi1 >= lo2 && hi1 <= hi2)
-        || (lo2 >= lo1 && lo2 <= hi1)
-        || (hi2 >= lo1 && hi2 <= hi1)
-}
-
 pub fn count<F, L>(lines: L, f: F) -> usize
 where
     L: Iterator<Item = String>,
@@ -29,7 +18,15 @@ where
         .sum()
 }
 
-fn parse_range(range: &str) -> (usize, usize) {
+pub fn includes_superset((lo1, hi1): &Range, (lo2, hi2): &Range) -> bool {
+    (lo2 <= lo1 && hi1 <= hi2) || (lo1 <= lo2 && hi2 <= hi1)
+}
+
+pub fn includes_intersection((lo1, hi1): &Range, (lo2, hi2): &Range) -> bool {
+    lo1 <= hi2 && hi1 >= lo2
+}
+
+fn parse_range(range: &str) -> Range {
     let (lo, hi) = range.split_once('-').expect("Failed splitting range.");
     let lo = lo.parse::<usize>().expect("Failed parsing as number.");
     let hi = hi.parse::<usize>().expect("Failed parsing as number.");

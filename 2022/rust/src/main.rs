@@ -15,7 +15,7 @@ fn main() -> Result<()> {
             3 => "three",
             4 => "four",
             _ => {
-                println!("{}", "Day not implemented.");
+                println!("Day not implemented.");
                 std::process::exit(1);
             }
         },
@@ -32,8 +32,8 @@ fn main() -> Result<()> {
             }
             (1, 1) => d_one::get_top_calories(lines, 1),
             (1, 2) => d_one::get_top_calories(lines, 3),
-            (2, 1) => core::filter_map_then_sum(d_two::count_score, lines),
-            (2, 2) => core::filter_map_then_sum(d_two::infer_score, lines),
+            (2, 1) => core::filter_map_then_sum(lines, d_two::count_score),
+            (2, 2) => core::filter_map_then_sum(lines, d_two::infer_score),
             (3, 1) => d_three::sacks_sum(lines),
             (3, 2) => d_three::badges_sum(lines),
             (4, 1) => d_four::count(lines, d_four::includes_superset),
