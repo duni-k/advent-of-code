@@ -1,4 +1,4 @@
-pub fn get_top_calories<L>(lines: L, nr_of_elves: usize) -> usize
+pub fn get_top_calories<L>(lines: L, nr_of_elves: usize) -> String
 where
     L: Iterator<Item = String>,
 {
@@ -16,5 +16,5 @@ where
         }
     }
 
-    top_sums.iter().sum()
+    top_sums.iter().sum::<usize>().to_string()
 }
