@@ -28,7 +28,8 @@ pub fn includes_intersection((lo1, hi1): &Range, (lo2, hi2): &Range) -> bool {
 
 fn parse_range(range: &str) -> Range {
     let (lo, hi) = range.split_once('-').expect("Failed splitting range.");
-    let lo = lo.parse::<usize>().expect("Failed parsing as number.");
-    let hi = hi.parse::<usize>().expect("Failed parsing as number.");
-    (lo, hi)
+    (
+        lo.parse::<usize>().expect("Failed parsing as number."),
+        hi.parse::<usize>().expect("Failed parsing as number."),
+    )
 }
