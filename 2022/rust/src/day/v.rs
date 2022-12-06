@@ -39,7 +39,7 @@ where
 
     Ok(crate_stacks
         .iter()
-        .flat_map(|stack| stack.iter().rev().next())
+        .flat_map(|stack| stack.iter().last())
         .collect())
 }
 
@@ -54,7 +54,6 @@ where
             if ch.to_digit(10).is_some() {
                 break 'crates;
             } else if ch.is_alphabetic() {
-                // sub by 1 because i % 4 == 0 also when i is 0
                 crate_map.entry(col_idx - 1).or_insert(Vec::new()).push(ch);
             }
             if i % 4 == 0 {
@@ -64,8 +63,6 @@ where
     }
     let mut crate_stacks: Vec<Vec<_>> = vec![Vec::new(); crate_map.len()];
     for (i, v) in crate_map {
-        // rev because we want top items in the back whereas we push to the back
-        // top to bottom in above construction
         crate_stacks[i] = v.into_iter().rev().collect();
     }
 

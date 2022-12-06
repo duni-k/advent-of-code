@@ -1,9 +1,13 @@
 [package]
-name = "advent-2022"
+name = "advent"
+authors = ["Edvard All"]
 version = "0.1.0"
 edition = "2021"
+description = "Simple CLI app for advent of code 2022."
 
 [dependencies]
 anyhow = "1.0.66"
 itertools = "0.10.5"
 numerals = "0.1"
+clap = {version = "4.0.29", features = ["unicode", "derive"]}
+chrono = "0.4.23"
