@@ -3,14 +3,16 @@ pub mod d_ii;
 pub mod d_iii;
 pub mod d_iv;
 pub mod d_v;
+pub mod d_vi;
 
 use std::{
     fs::File,
     io::{BufRead, BufReader, Lines},
     iter::Flatten,
+    path::PathBuf,
 };
 
-use anyhow::{anyhow, Context, Result};
+use anyhow::{Context, Result};
 use numerals::roman::Roman;
 
 const INP_PATH: &'static str = "/home/dnk/Projects/advent-of-code/2022/rust/inputs/d_";
@@ -23,7 +25,7 @@ where
     lines.filter_map(|line| f(&line)).sum::<usize>().to_string()
 }
 
-pub fn read_lines(day: usize) -> Result<Flatten<Lines<BufReader<File>>>> {
+pub fn read_default_input(day: usize) -> Result<Flatten<Lines<BufReader<File>>>> {
     let input_file = format!("{INP_PATH}{:x}", Roman::from(day as i16));
     let f = File::open(&input_file).context(format!(
         "Failed opening input file \"{}\", is the day really implemented?",
@@ -33,21 +35,11 @@ pub fn read_lines(day: usize) -> Result<Flatten<Lines<BufReader<File>>>> {
     Ok(reader.lines().flatten())
 }
 
-pub struct Argument {
-    pub day: usize,
-    pub part: usize,
-}
-
-impl Argument {
-    pub fn new(args: Vec<String>) -> Result<Argument> {
-        if args.len() < 3 {
-            return Err(anyhow!(
-                "Not enough arguments, specify day and input file in that order."
-            ));
-        } else if let (Ok(day), Ok(part)) = (args[1].parse::<usize>(), args[2].parse::<usize>()) {
-            Ok(Argument { day, part })
-        } else {
-            return Err(anyhow!("Could not parse arguments."));
-        }
-    }
+pub fn read_file(fname: PathBuf) -> Result<Flatten<Lines<BufReader<File>>>> {
+    let f = File::open(&fname).context(format!(
+        "Failed opening input file \"{:#?}\", did you provide the correct path?",
+        &fname
+    ))?;
+    let reader = BufReader::new(f);
+    Ok(reader.lines().flatten())
 }
