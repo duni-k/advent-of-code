@@ -1,9 +1,9 @@
 [package]
-name = "advent22"
-auhor = "Edvard All"
+name = "advent"
+authors = ["Edvard All"]
 version = "0.1.0"
 edition = "2021"
-about = "Simple CLI app for advent of code."
+description = "Simple CLI app for advent of code 2022."
 
 [dependencies]
 anyhow = "1.0.66"
