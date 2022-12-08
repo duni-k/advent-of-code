@@ -8,7 +8,7 @@ use std::{
 use anyhow::{Context, Result};
 use numerals::roman::Roman;
 
-const INP_PATH: &'static str = "/home/dnk/Projects/advent-of-code/2022/rust/inputs/d_";
+const INP_PATH: &'static str = "/home/dnk/Projects/advent-of-code/2022/rust/inputs/";
 
 pub fn read_default_input(day: usize) -> Result<Flatten<Lines<BufReader<File>>>> {
     let input_file = format!("{INP_PATH}{:x}", Roman::from(day as i16));

@@ -1,3 +1,4 @@
+#![feature(let_chains)]
 mod day;
 mod reader;
 
@@ -36,10 +37,10 @@ fn main() -> Result<()> {
             println!("A day only has two parts, got {}", args.part);
             std::process::exit(1);
         }
-        (1, 1) => i::get_top_calories(lines, 1),
-        (1, 2) => i::get_top_calories(lines, 3),
-        (2, 1) => ii::filter_map_then_sum(lines, ii::count_score),
-        (2, 2) => ii::filter_map_then_sum(lines, ii::infer_score),
+        (1, 1) => i::get_top_calories(lines, 1).to_string(),
+        (1, 2) => i::get_top_calories(lines, 3).to_string(),
+        (2, 1) => ii::filter_map_then_sum(lines, ii::count_score).to_string(),
+        (2, 2) => ii::filter_map_then_sum(lines, ii::infer_score).to_string(),
         (3, 1) => iii::sacks_sum(lines).to_string(),
         (3, 2) => iii::badges_sum(lines).to_string(),
         (4, 1) => iv::count(lines, iv::includes_superset).to_string(),
@@ -48,6 +49,9 @@ fn main() -> Result<()> {
         (5, 2) => v::stack_tops(lines, 9001)?,
         (6, 1) => vi::start_marker_position(lines, 4).to_string(),
         (6, 2) => vi::start_marker_position(lines, 14).to_string(),
+        (7, 1) => vii::sum_small_dirs(lines).to_string(),
+        (7, 2) => vii::smallest_viable_deletion(lines, 30_000_000).to_string(),
+        (8, 1) => iix::visible_trees(lines).to_string(),
         _ => todo!(),
     };
 
