@@ -51,7 +51,8 @@ fn main() -> Result<()> {
         (6, 2) => vi::start_marker_position(lines, 14).to_string(),
         (7, 1) => vii::sum_small_dirs(lines).to_string(),
         (7, 2) => vii::smallest_viable_deletion(lines, 30_000_000).to_string(),
-        (8, 1) => iix::visible_trees(lines).to_string(),
+        (8, 1) => viii::visible_trees(lines).to_string(),
+        (8, 2) => viii::top_scenic_score(lines).to_string(),
         _ => todo!(),
     };
 
