@@ -1,3 +1,4 @@
+#![feature(let_chains)]
 mod day;
 mod reader;
 
@@ -24,11 +25,13 @@ struct Cli {
 
 fn main() -> Result<()> {
     let args = Cli::parse();
-    let day = args.day.unwrap_or(chrono::Utc::now().day());
+    let today = chrono::Utc::now().day();
+    let day = args.day.unwrap_or(today);
 
-    let lines = match args.file {
-        Some(fname) => r::read_file(fname)?,
-        None => r::read_default_input(day as usize)?,
+    let input = if let Some(fname) = args.file {
+        r::read_file(&fname)?
+    } else {
+        r::read_or_fetch(day)?
     };
 
     let answer: String = match (day, args.part) {
@@ -36,18 +39,24 @@ fn main() -> Result<()> {
             println!("A day only has two parts, got {}", args.part);
             std::process::exit(1);
         }
-        (1, 1) => i::get_top_calories(lines, 1),
-        (1, 2) => i::get_top_calories(lines, 3),
-        (2, 1) => ii::filter_map_then_sum(lines, ii::count_score),
-        (2, 2) => ii::filter_map_then_sum(lines, ii::infer_score),
-        (3, 1) => iii::sacks_sum(lines).to_string(),
-        (3, 2) => iii::badges_sum(lines).to_string(),
-        (4, 1) => iv::count(lines, iv::includes_superset).to_string(),
-        (4, 2) => iv::count(lines, iv::includes_intersection).to_string(),
-        (5, 1) => v::stack_tops(lines, 9000)?,
-        (5, 2) => v::stack_tops(lines, 9001)?,
-        (6, 1) => vi::start_marker_position(lines, 4).to_string(),
-        (6, 2) => vi::start_marker_position(lines, 14).to_string(),
+        (1, 1) => i::get_top_calories(&input, 1).to_string(),
+        (1, 2) => i::get_top_calories(&input, 3).to_string(),
+        (2, 1) => ii::filter_map_then_sum(&input, ii::count_score).to_string(),
+        (2, 2) => ii::filter_map_then_sum(&input, ii::infer_score).to_string(),
+        (3, 1) => iii::sacks_sum(&input).to_string(),
+        (3, 2) => iii::badges_sum(&input).to_string(),
+        (4, 1) => iv::count(&input, iv::includes_superset).to_string(),
+        (4, 2) => iv::count(&input, iv::includes_intersection).to_string(),
+        (5, 1) => v::stack_tops(&input, 9000)?,
+        (5, 2) => v::stack_tops(&input, 9001)?,
+        (6, 1) => vi::start_marker_position(&input, 4).to_string(),
+        (6, 2) => vi::start_marker_position(&input, 14).to_string(),
+        (7, 1) => vii::sum_small_dirs(&input).to_string(),
+        (7, 2) => vii::smallest_viable_deletion(&input, 30_000_000).to_string(),
+        (8, 1) => viii::visible_trees(&input).to_string(),
+        (8, 2) => viii::top_scenic_score(&input).to_string(),
+        (9, 1) => ix::visited_by_tail(&input, 2).to_string(),
+        (9, 2) => ix::visited_by_tail(&input, 10).to_string(),
         _ => todo!(),
     };
 

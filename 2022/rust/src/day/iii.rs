@@ -5,8 +5,9 @@ use itertools::Itertools;
 type Priority = usize;
 type ItemType = char;
 
-pub fn sacks_sum(lines: impl Iterator<Item = String>) -> Priority {
-    lines
+pub fn sacks_sum(input: &str) -> Priority {
+    input
+        .lines()
         .map(|line| {
             let (fst, snd) = line.split_at(line.len() / 2);
             priority(duplicate(vec![fst, snd]).unwrap())
@@ -14,14 +15,15 @@ pub fn sacks_sum(lines: impl Iterator<Item = String>) -> Priority {
         .sum()
 }
 
-pub fn badges_sum(lines: impl Iterator<Item = String>) -> Priority {
-    lines
+pub fn badges_sum(input: &str) -> Priority {
+    input
+        .lines()
         .tuples()
         .map(|(fst, snd, third)| priority(duplicate(vec![&fst, &snd, &third]).unwrap()))
         .sum()
 }
 
-fn duplicate<'a>(group: Vec<&'a str>) -> Option<ItemType> {
+fn duplicate(group: Vec<&str>) -> Option<ItemType> {
     group
         .iter()
         .map(|&s| s.chars().collect::<HashSet<ItemType>>())

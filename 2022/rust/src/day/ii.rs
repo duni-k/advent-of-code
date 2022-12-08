@@ -120,12 +120,11 @@ pub fn infer_score(line: &str) -> Option<Score> {
     }
 }
 
-pub fn filter_map_then_sum<L, F>(lines: L, f: F) -> String
+pub fn filter_map_then_sum<F>(input: &str, f: F) -> usize
 where
     F: Fn(&'_ str) -> Option<usize>,
-    L: Iterator<Item = String>,
 {
-    lines.filter_map(|line| f(&line)).sum::<usize>().to_string()
+    input.lines().filter_map(|line| f(&line)).sum::<usize>()
 }
 
 #[cfg(test)]

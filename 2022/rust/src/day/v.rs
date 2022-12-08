@@ -12,11 +12,8 @@ struct Instruction {
     dest: usize,
 }
 
-pub fn stack_tops<L>(lines: L, crate_mover_model: usize) -> Result<String>
-where
-    L: Iterator<Item = String>,
-{
-    let (mut crate_stacks, instructions) = init_cfg(lines);
+pub fn stack_tops(input: &str, crate_mover_model: usize) -> Result<String> {
+    let (mut crate_stacks, instructions) = init_cfg(input);
 
     match crate_mover_model {
         9000 => {
@@ -43,15 +40,12 @@ where
         .collect())
 }
 
-fn init_cfg<L>(mut lines: L) -> (Vec<Vec<Crate>>, Vec<Instruction>)
-where
-    L: Iterator<Item = String>,
-{
+fn init_cfg(input: &str) -> (Vec<Vec<Crate>>, Vec<Instruction>) {
     let mut crate_map = HashMap::new();
-    'crates: for line in &mut lines {
+    'crates: for line in input.lines() {
         let mut col_idx = 0;
         for (i, ch) in line.chars().enumerate() {
-            if ch.to_digit(10).is_some() {
+            if ch.is_ascii_digit() {
                 break 'crates;
             } else if ch.is_alphabetic() {
                 crate_map.entry(col_idx - 1).or_insert(Vec::new()).push(ch);
@@ -66,7 +60,8 @@ where
         crate_stacks[i] = v.into_iter().rev().collect();
     }
 
-    let instructions = lines
+    let instructions = input
+        .lines()
         .filter_map(|line| {
             if let Some((amount, src, dest)) = line
                 .split_ascii_whitespace()
