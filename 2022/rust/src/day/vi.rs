@@ -1,10 +1,8 @@
 use itertools::Itertools;
 
-pub fn start_marker_position<L>(mut lines: L, seq_len: usize) -> usize
-where
-    L: Iterator<Item = String>,
-{
-    lines
+pub fn start_marker_position(input: &str, seq_len: usize) -> usize {
+    input
+        .lines()
         .next()
         .unwrap()
         .as_bytes()

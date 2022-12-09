@@ -1,11 +1,11 @@
 type Range = (usize, usize);
 
-pub fn count<F, L>(lines: L, f: F) -> usize
+pub fn count<F>(input: &str, f: F) -> usize
 where
-    L: Iterator<Item = String>,
     F: Fn(&Range, &Range) -> bool,
 {
-    lines
+    input
+        .lines()
         .map(|line| {
             let (sec1, sec2) = line.split_once(',').expect("Failed splitting pair.");
             let (r1, r2) = (parse_range(sec1), parse_range(sec2));

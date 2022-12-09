@@ -1,17 +1,7 @@
-pub fn visible_trees(lines: impl Iterator<Item = String>) -> usize {
-    let heights: Vec<Vec<isize>> = lines
-        .map(|line| {
-            line.chars()
-                .filter_map(|ch| {
-                    if let Some(n) = ch.to_digit(10) {
-                        Some(n as isize)
-                    } else {
-                        None
-                    }
-                })
-                .collect()
-        })
-        .collect();
+use take_until::TakeUntilExt;
+
+pub fn visible_trees(input: &str) -> usize {
+    let heights = construct_matrix(input);
     let (n_rows, n_cols) = (heights.len(), heights[0].len());
     let mut visibility = vec![false; n_cols * n_rows];
 
@@ -22,7 +12,7 @@ pub fn visible_trees(lines: impl Iterator<Item = String>) -> usize {
         let mut row_max = -1;
         for x in 0..n_cols {
             let height = heights[y][x];
-            visibility[idx(x, y)] = visibility[idx(x, y)] || height > row_max;
+            visibility[idx(x, y)] |= height > row_max;
             row_max = isize::max(height, row_max);
         }
     }
@@ -31,7 +21,7 @@ pub fn visible_trees(lines: impl Iterator<Item = String>) -> usize {
         let mut tree_top = -1;
         for x in (0..n_cols).rev() {
             let height = heights[y][x];
-            visibility[idx(x, y)] = visibility[idx(x, y)] || height > tree_top;
+            visibility[idx(x, y)] |= height > tree_top;
             tree_top = isize::max(height, tree_top);
         }
     }
@@ -40,7 +30,7 @@ pub fn visible_trees(lines: impl Iterator<Item = String>) -> usize {
         let mut tree_top = -1;
         for y in 0..n_rows {
             let height = heights[y][x];
-            visibility[idx(x, y)] = visibility[idx(x, y)] || height > tree_top;
+            visibility[idx(x, y)] |= height > tree_top;
             tree_top = isize::max(height, tree_top);
         }
     }
@@ -50,7 +40,7 @@ pub fn visible_trees(lines: impl Iterator<Item = String>) -> usize {
         let mut tree_top = isize::min_value();
         for y in (0..n_rows).rev() {
             let height = heights[y][x];
-            visibility[idx(x, y)] = visibility[idx(x, y)] || height > tree_top;
+            visibility[idx(x, y)] |= height > tree_top;
             tree_top = isize::max(height, tree_top);
         }
     }
@@ -58,58 +48,54 @@ pub fn visible_trees(lines: impl Iterator<Item = String>) -> usize {
     visibility.iter().map(|&b| if b { 1 } else { 0 }).sum()
 }
 
-pub fn top_scenic_score(lines: impl Iterator<Item = String>) -> usize {
-    let heights: Vec<Vec<isize>> = lines
-        .map(|line| {
-            line.chars()
-                .filter_map(|ch| {
-                    if let Some(n) = ch.to_digit(10) {
-                        Some(n as isize)
-                    } else {
-                        None
-                    }
-                })
-                .collect()
-        })
-        .collect();
+pub fn top_scenic_score(input: &str) -> usize {
+    let heights = construct_matrix(input);
     let (n_rows, n_cols) = (heights.len(), heights[0].len());
 
     let mut top_score = 0;
     for y in 0..n_rows {
         for x in 0..n_cols {
-            let candidate = heights[y][x];
-            // left2right
-            let (mut lr, mut rl, mut td, mut dt) = (0, 0, 0, 0);
-            for i in (x + 1)..n_cols {
-                lr += 1;
-                if !(candidate > heights[y][i]) {
-                    break;
-                }
-            }
-            // right2left
-            for i in (0..x).rev() {
-                rl += 1;
-                if !(candidate > heights[y][i]) {
-                    break;
-                }
-            }
-            // topdown
-            for i in (y + 1)..n_rows {
-                td += 1;
-                if !(candidate > heights[i][x]) {
-                    break;
-                }
-            }
-            // downtop
-            for i in (0..y).rev() {
-                dt += 1;
-                if !(candidate > heights[i][x]) {
-                    break;
-                }
-            }
-            top_score = usize::max(rl * lr * td * dt, top_score);
+            top_score = usize::max(top_score, scenic_score(x, y, &heights));
         }
     }
 
     top_score
+}
+
+fn construct_matrix(input: &str) -> Vec<Vec<isize>> {
+    input
+        .split('\n')
+        .map(|line| {
+            line.chars()
+                .filter_map(|ch| ch.to_digit(10).map(|n| n as isize))
+                .collect()
+        })
+        .collect()
+}
+
+fn scenic_score(x: usize, y: usize, heights: &Vec<Vec<isize>>) -> usize {
+    let candidate = heights[y][x];
+    let (n_rows, n_cols) = (heights.len(), heights[0].len());
+    // left2right
+    let rl = (0..x)
+        .rev()
+        .take_until(|&i| candidate <= heights[y][i])
+        .count();
+    // right2left
+    let lr = ((x + 1)..n_cols)
+        .take_until(|&i| candidate <= heights[y][i])
+        .count();
+
+    // topdown
+    let td = ((y + 1)..n_rows)
+        .take_until(|&i| candidate <= heights[i][x])
+        .count();
+
+    // downtop
+    let dt = (0..y)
+        .rev()
+        .take_until(|&i| candidate <= heights[i][x])
+        .count();
+
+    rl * lr * td * dt
 }

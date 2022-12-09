@@ -31,14 +31,14 @@ struct Graph {
 }
 
 impl Graph {
-    fn new(traversal: Vec<String>) -> Self {
+    fn new(traversal: Vec<&str>) -> Self {
         let mut dirs = Graph::default();
         dirs.arena.push(Dir::new(0, "/".to_string(), None));
         let mut curr = 0;
         let mut i = 1;
 
         loop {
-            if i >= traversal.len() {
+            if traversal[i].is_empty() {
                 break;
             }
             let line = traversal[i].split_whitespace().collect::<Vec<&str>>();
@@ -50,6 +50,8 @@ impl Graph {
                         break;
                     }
                     let line = traversal[i].split_whitespace().collect::<Vec<&str>>();
+                    dbg!(&line);
+                    dbg!(i);
                     match line[0] {
                         "dir" => (),
                         "$" => {
@@ -122,9 +124,8 @@ impl Graph {
     }
 }
 
-pub fn sum_small_dirs(lines: impl Iterator<Item = String>) -> usize {
-    let input = lines.collect::<Vec<String>>();
-    let graph = Graph::new(input);
+pub fn sum_small_dirs(input: &str) -> usize {
+    let graph = Graph::new(input.to_string().split("\n").collect());
     graph
         .arena
         .iter()
@@ -132,10 +133,9 @@ pub fn sum_small_dirs(lines: impl Iterator<Item = String>) -> usize {
         .sum()
 }
 
-pub fn smallest_viable_deletion(lines: impl Iterator<Item = String>, required: usize) -> usize {
+pub fn smallest_viable_deletion(input: &str, required: usize) -> usize {
     const TOTAL: usize = 70_000_000;
-    let input = lines.collect::<Vec<String>>();
-    let graph = Graph::new(input);
+    let graph = Graph::new(input.to_string().split("\n").collect());
     let missing = required - (TOTAL - graph.size());
     graph
         .arena
