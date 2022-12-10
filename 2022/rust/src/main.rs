@@ -1,4 +1,4 @@
-#![feature(let_chains)]
+#![feature(let_chains, iter_intersperse)]
 mod day;
 mod reader;
 
@@ -57,6 +57,8 @@ fn main() -> Result<()> {
         (8, 2) => viii::top_scenic_score(&input).to_string(),
         (9, 1) => ix::visited_by_tail(&input, 2).to_string(),
         (9, 2) => ix::visited_by_tail(&input, 10).to_string(),
+        (10, 1) => x::signal_strength(&input).to_string(),
+        (10, 2) => x::letters_from_crt(&input),
         _ => todo!(),
     };
 
