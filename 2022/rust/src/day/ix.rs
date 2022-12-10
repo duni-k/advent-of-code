@@ -91,7 +91,7 @@ pub fn visited_by_tail(input: &str, knots: usize) -> usize {
         for _ in 0..(distance.parse::<usize>().unwrap()) {
             rope.body[0].step_dir(&Direction::from(direction));
             for (i, j) in (0..rope.len() - 1).zip(1..rope.len()) {
-                let (this, mut next) = (rope.body[i].clone(), rope.body[j]);
+                let (this, mut next) = (rope.body[i], rope.body[j]);
                 if !this.touching(&next) {
                     next.step_towards(&this)
                 }
