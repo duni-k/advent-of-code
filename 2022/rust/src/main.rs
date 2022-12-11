@@ -59,6 +59,8 @@ fn main() -> Result<()> {
         (9, 2) => ix::visited_by_tail(&input, 10).to_string(),
         (10, 1) => x::signal_strength(&input).to_string(),
         (10, 2) => x::letters_from_crt(&input),
+        (11, 1) => xi::part_one(&input).to_string(),
+        (11, 2) => xi::part_two(&input).to_string(),
         _ => todo!(),
     };
 
