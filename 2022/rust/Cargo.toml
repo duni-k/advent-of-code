@@ -13,3 +13,4 @@ clap = {version = "4.0.29", features = ["unicode", "derive"]}
 chrono = "0.4.23"
 take-until = "0.1.0"
 reqwest = { version = "0.11.13", features = ["blocking", "cookies"] }
+gcd = "2.2.0"
