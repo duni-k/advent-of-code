@@ -62,15 +62,15 @@ impl Knot {
     }
 
     fn step_towards(&mut self, other: &Self) {
-        if other.x > self.x {
-            self.x += 1;
-        } else if other.x < self.x {
-            self.x -= 1;
+        match self.x.cmp(&other.x) {
+            std::cmp::Ordering::Greater => self.x += 1,
+            std::cmp::Ordering::Less => self.x -= 1,
+            _ => (),
         }
-        if other.y > self.y {
-            self.y += 1;
-        } else if other.y < self.y {
-            self.y -= 1;
+        match self.y.cmp(&other.y) {
+            std::cmp::Ordering::Greater => self.y += 1,
+            std::cmp::Ordering::Less => self.y -= 1,
+            _ => (),
         }
     }
 

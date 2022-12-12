@@ -61,6 +61,8 @@ fn main() -> Result<()> {
         (10, 2) => x::letters_from_crt(&input),
         (11, 1) => xi::part_one(&input).to_string(),
         (11, 2) => xi::part_two(&input).to_string(),
+        (12, 1) => xii::shortest_path_from(&input, 'S').to_string(),
+        (12, 2) => xii::shortest_path_from(&input, 'a').to_string(),
         _ => todo!(),
     };
 

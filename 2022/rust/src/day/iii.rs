@@ -19,7 +19,7 @@ pub fn badges_sum(input: &str) -> Priority {
     input
         .lines()
         .tuples()
-        .map(|(fst, snd, third)| priority(duplicate(vec![&fst, &snd, &third]).unwrap()))
+        .map(|(fst, snd, third)| priority(duplicate(vec![fst, snd, third]).unwrap()))
         .sum()
 }
 

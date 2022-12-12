@@ -11,14 +11,12 @@ pub fn signal_strength(input: &str) -> isize {
         cycle += 1;
         if (cycle - 20) % 40 == 0 {
             strength += cycle * register;
-            dbg!((cycle, register));
         }
         match (ops.next(), ops.next()) {
             (Some("addx"), Some(n)) => {
                 cycle += 1;
                 if (cycle - 20) % 40 == 0 {
                     strength += cycle * register;
-                    dbg!((cycle, register));
                 }
                 register += n.parse::<isize>().unwrap();
             }
@@ -55,7 +53,6 @@ pub fn letters_from_crt(input: &str) -> String {
             (Some("noop"), None) => (),
             _ => unreachable!(),
         }
-        dbg!((&cycle, register));
     }
 
     format!(
@@ -63,7 +60,7 @@ pub fn letters_from_crt(input: &str) -> String {
         screen
             .chunks(40)
             .intersperse(&['\n'])
-            .map(|chs| chs.into_iter().collect::<String>())
+            .map(|chs| chs.iter().collect::<String>())
             .collect::<String>()
     )
 }

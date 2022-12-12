@@ -9,6 +9,7 @@ pub mod vii;
 pub mod viii;
 pub mod x;
 pub mod xi;
+pub mod xii;
 
 pub fn get_numbers(input: &str) -> Vec<usize> {
     input
@@ -20,7 +21,6 @@ pub fn get_numbers(input: &str) -> Vec<usize> {
 pub fn get_number(input: &str) -> usize {
     input
         .split_whitespace()
-        .filter_map(|n| n.parse::<usize>().ok())
-        .next()
+        .find_map(|n| n.parse::<usize>().ok())
         .unwrap()
 }
