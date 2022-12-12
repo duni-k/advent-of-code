@@ -65,11 +65,11 @@ impl<'a> Monkey<'a> {
 }
 
 pub fn part_one(input: &str) -> usize {
-    monkey_business(parse_monkeys(&input), 20, |worry| worry / 3)
+    monkey_business(parse_monkeys(input), 20, |worry| worry / 3)
 }
 
 pub fn part_two(input: &str) -> usize {
-    let monkeys: Vec<Monkey> = parse_monkeys(&input);
+    let monkeys: Vec<Monkey> = parse_monkeys(input);
 
     let divs = monkeys.iter().map(|m| m.div);
     let lcm = divs.clone().reduce(std::ops::Mul::mul).unwrap()

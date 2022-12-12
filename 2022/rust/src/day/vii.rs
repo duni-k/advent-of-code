@@ -50,8 +50,6 @@ impl Graph {
                         break;
                     }
                     let line = traversal[i].split_whitespace().collect::<Vec<&str>>();
-                    dbg!(&line);
-                    dbg!(i);
                     match line[0] {
                         "dir" => (),
                         "$" => {
@@ -125,7 +123,7 @@ impl Graph {
 }
 
 pub fn sum_small_dirs(input: &str) -> usize {
-    let graph = Graph::new(input.to_string().split("\n").collect());
+    let graph = Graph::new(input.to_string().split('\n').collect());
     graph
         .arena
         .iter()
@@ -135,7 +133,7 @@ pub fn sum_small_dirs(input: &str) -> usize {
 
 pub fn smallest_viable_deletion(input: &str, required: usize) -> usize {
     const TOTAL: usize = 70_000_000;
-    let graph = Graph::new(input.to_string().split("\n").collect());
+    let graph = Graph::new(input.to_string().split('\n').collect());
     let missing = required - (TOTAL - graph.size());
     graph
         .arena
