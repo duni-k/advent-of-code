@@ -63,6 +63,9 @@ fn main() -> Result<()> {
         (11, 2) => xi::part_two(&input).to_string(),
         (12, 1) => xii::shortest_path_from(&input, 'S').to_string(),
         (12, 2) => xii::shortest_path_from(&input, 'a').to_string(),
+        (13, 1) => xiii::indices_sum(&input).to_string(),
+        (14, 1) => xiv::resting_sand(&input, true).to_string(),
+        (14, 2) => xiv::resting_sand(&input, false).to_string(),
         _ => todo!(),
     };
 
