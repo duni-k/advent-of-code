@@ -41,5 +41,5 @@ fn fetch(url: &str) -> Result<String> {
         .build()?;
     let request = client.get(url_parsed).build()?;
 
-    Ok(client.execute(request)?.text()?.trim().to_string())
+    Ok(client.execute(request)?.text()?.to_string())
 }

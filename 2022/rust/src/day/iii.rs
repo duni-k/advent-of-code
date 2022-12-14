@@ -2,7 +2,7 @@ use std::collections::HashSet;
 
 use itertools::Itertools;
 
-type Priority = usize;
+type Priority = isize;
 type ItemType = char;
 
 pub fn sacks_sum(input: &str) -> Priority {
@@ -40,7 +40,7 @@ fn priority(it: ItemType) -> Priority {
         'A'..='Z' => 38,
         _ => unreachable!(),
     };
-    (it as usize) - offset
+    (it as isize) - offset
 }
 
 #[cfg(test)]

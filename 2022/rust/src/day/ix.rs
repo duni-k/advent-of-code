@@ -62,14 +62,15 @@ impl Knot {
     }
 
     fn step_towards(&mut self, other: &Self) {
+        use std::cmp::Ordering::*;
         match self.x.cmp(&other.x) {
-            std::cmp::Ordering::Greater => self.x += 1,
-            std::cmp::Ordering::Less => self.x -= 1,
+            Greater => self.x += 1,
+            Less => self.x -= 1,
             _ => (),
         }
         match self.y.cmp(&other.y) {
-            std::cmp::Ordering::Greater => self.y += 1,
-            std::cmp::Ordering::Less => self.y -= 1,
+            Greater => self.y += 1,
+            Less => self.y -= 1,
             _ => (),
         }
     }
@@ -83,7 +84,7 @@ impl Knot {
     }
 }
 
-pub fn visited_by_tail(input: &str, knots: usize) -> usize {
+pub fn visited_by_tail(input: &str, knots: usize) -> isize {
     let mut rope = Rope::new(knots);
     let mut visited = HashSet::new();
     visited.insert(rope.tail().pos());
@@ -101,5 +102,5 @@ pub fn visited_by_tail(input: &str, knots: usize) -> usize {
         }
     }
 
-    visited.len()
+    visited.len() as isize
 }

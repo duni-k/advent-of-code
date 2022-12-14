@@ -122,16 +122,16 @@ impl Graph {
     }
 }
 
-pub fn sum_small_dirs(input: &str) -> usize {
+pub fn sum_small_dirs(input: &str) -> isize {
     let graph = Graph::new(input.to_string().split('\n').collect());
     graph
         .arena
         .iter()
         .map(|dir| if dir.size <= 100_000 { dir.size } else { 0 })
-        .sum()
+        .sum::<usize>() as isize
 }
 
-pub fn smallest_viable_deletion(input: &str, required: usize) -> usize {
+pub fn smallest_viable_deletion(input: &str, required: usize) -> isize {
     const TOTAL: usize = 70_000_000;
     let graph = Graph::new(input.to_string().split('\n').collect());
     let missing = required - (TOTAL - graph.size());
@@ -146,5 +146,5 @@ pub fn smallest_viable_deletion(input: &str, required: usize) -> usize {
             }
         })
         .min()
-        .unwrap()
+        .unwrap() as isize
 }

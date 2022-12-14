@@ -1,4 +1,4 @@
-pub fn get_top_calories(input: &str, nr_of_elves: usize) -> usize {
+pub fn get_top_calories(input: &str, nr_of_elves: usize) -> isize {
     let mut top_sums = vec![usize::min_value(); nr_of_elves];
     let mut curr_sum = 0;
     for line in input.lines() {
@@ -13,5 +13,5 @@ pub fn get_top_calories(input: &str, nr_of_elves: usize) -> usize {
         }
     }
 
-    top_sums.iter().sum::<usize>()
+    top_sums.iter().sum::<usize>() as isize
 }

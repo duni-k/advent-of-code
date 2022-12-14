@@ -1,6 +1,6 @@
 use std::collections::{HashSet, VecDeque};
 
-pub fn shortest_path_from(input: &str, start: char) -> usize {
+pub fn shortest_path_from(input: &str, start: char) -> isize {
     let map = input
         .lines()
         .map(|line| line.to_string().chars().collect::<Vec<_>>())
@@ -10,7 +10,7 @@ pub fn shortest_path_from(input: &str, start: char) -> usize {
         .iter()
         .filter_map(|&start| shortest_path(&map, start))
         .reduce(usize::min)
-        .unwrap()
+        .unwrap() as isize
 }
 
 fn shortest_path(map: &[Vec<char>], start: (usize, usize)) -> Option<usize> {
