@@ -1,4 +1,4 @@
-pub fn signal_strength(input: &str) -> isize {
+pub fn signal_strength(input: &str) -> String {
     let mut register = 1;
     let mut cycle: isize = 0;
     let mut strength = 0;
@@ -25,7 +25,7 @@ pub fn signal_strength(input: &str) -> isize {
         }
     }
 
-    strength
+    strength.to_string()
 }
 
 pub fn letters_from_crt(input: &str) -> String {

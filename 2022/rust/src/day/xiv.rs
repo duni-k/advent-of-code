@@ -49,10 +49,11 @@ impl Point {
     }
 }
 
-pub fn resting_sand(input: &str, void: bool) -> usize {
+pub fn resting_sand(input: &str, void: bool) -> isize {
     let mut rocks = get_rocks(input);
     let start_len = rocks.len();
     let (_, max) = rocks_min_max(&rocks);
+    print_rocks(&rocks);
 
     const START: Point = Point { x: 500, y: 0 };
 
@@ -75,7 +76,7 @@ pub fn resting_sand(input: &str, void: bool) -> usize {
     }
     print_rocks(&rocks);
 
-    rocks.len() - start_len
+    (rocks.len() - start_len) as isize
 }
 
 fn get_rocks(input: &str) -> HashSet<Point> {
@@ -95,9 +96,8 @@ fn get_rocks(input: &str) -> HashSet<Point> {
                 })
                 .tuple_windows()
                 .flat_map(|(this, next)| this.line_between(next))
-                .collect::<HashSet<_>>()
         })
-        .collect::<HashSet<_>>()
+        .collect()
 }
 
 fn rocks_min_max(rocks: &HashSet<Point>) -> (Point, Point) {

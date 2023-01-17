@@ -14,3 +14,9 @@ chrono = "0.4.23"
 take-until = "0.1.0"
 reqwest = { version = "0.11.13", features = ["blocking", "cookies"] }
 gcd = "2.2.0"
+regex = "1.7.0"
+nalgebra = "0.31.4"
+scan_fmt = "0.2.6"
+
+[profile.release]
+incremental = true

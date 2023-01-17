@@ -1,6 +1,6 @@
 use take_until::TakeUntilExt;
 
-pub fn visible_trees(input: &str) -> usize {
+pub fn visible_trees(input: &str) -> isize {
     let heights = construct_matrix(input);
     let (n_rows, n_cols) = (heights.len(), heights[0].len());
     let mut visibility = vec![false; n_cols * n_rows];
@@ -45,10 +45,13 @@ pub fn visible_trees(input: &str) -> usize {
         }
     }
 
-    visibility.iter().map(|&b| if b { 1 } else { 0 }).sum()
+    visibility
+        .iter()
+        .map(|&b| if b { 1 } else { 0 })
+        .sum::<usize>() as isize
 }
 
-pub fn top_scenic_score(input: &str) -> usize {
+pub fn top_scenic_score(input: &str) -> isize {
     let heights = construct_matrix(input);
     let (n_rows, n_cols) = (heights.len(), heights[0].len());
 
@@ -59,7 +62,7 @@ pub fn top_scenic_score(input: &str) -> usize {
         }
     }
 
-    top_score
+    top_score as isize
 }
 
 fn construct_matrix(input: &str) -> Vec<Vec<isize>> {

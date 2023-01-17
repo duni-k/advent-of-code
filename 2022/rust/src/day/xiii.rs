@@ -20,21 +20,21 @@ impl fmt::Debug for Token {
     }
 }
 
-pub fn indices_sum(input: &str) -> usize {
+pub fn indices_sum(input: &str) -> isize {
     input
         .split("\n\n")
         .enumerate()
         .filter_map(|(i, pair)| {
-            if let Some((fst, snd)) = pair.split_once('\n') {
-                let ord = ordered(lex(fst), lex(snd));
-                // dbg!(((i + 1), ord));
-                Some((i + 1) * ord as usize)
+            if let Some((fst, snd)) =
+                pair.split_once('\n') && ordered(lex(fst), lex(snd)) {
+                    println!("True");
+                Some(i + 1)
             } else {
-                dbg!(&pair);
+                    println!("False");
                 None
             }
         })
-        .sum()
+        .sum::<usize>() as isize
 }
 
 fn lex(input: &str) -> Vec<Token> {
@@ -60,17 +60,26 @@ fn lex(input: &str) -> Vec<Token> {
 fn ordered(mut left: Vec<Token>, mut right: Vec<Token>) -> bool {
     use Token::*;
     loop {
-        // println!("left: {:?}", &left.iter().rev().collect::<Vec<_>>());
-        // println!("right: {:?}", &right.iter().rev().collect::<Vec<_>>());
+        println!("left: {:?}", &left.iter().rev().collect::<Vec<_>>());
+        println!("right: {:?}", &right.iter().rev().collect::<Vec<_>>());
         match (left.pop(), right.pop()) {
             (Some(Integer(n1)), Some(Integer(n2))) => {
+                println!("Comparing {n1} with {n2}");
                 if n1 == n2 {
                     continue;
                 }
                 return n1 < n2;
             }
-            (Some(LPar), Some(LPar)) | (Some(RPar), Some(RPar)) => (),
-            (Some(RPar) | None, Some(_)) => return true,
+            (Some(RPar), Some(RPar)) => (),
+            (Some(LPar), Some(LPar)) => return ordered(left, right),
+            (Some(RPar) | None, Some(_)) => {
+                println!("Left side out of items.");
+                return true;
+            } // left empty
+            (Some(_), None | Some(RPar)) => {
+                println!("Right side out of items");
+                return false;
+            } // right empty
             (Some(LPar), Some(int @ Integer(_))) => {
                 left.push(LPar);
                 right.append(&mut vec![RPar, int, LPar]);
@@ -79,7 +88,7 @@ fn ordered(mut left: Vec<Token>, mut right: Vec<Token>) -> bool {
                 right.push(LPar);
                 left.append(&mut vec![RPar, int, LPar]);
             }
-            _ => return false,
+            (None, None) => unreachable!(), // assume no twins
         }
     }
 }

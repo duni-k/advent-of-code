@@ -1,6 +1,6 @@
 type Range = (usize, usize);
 
-pub fn count<F>(input: &str, f: F) -> usize
+pub fn count<F>(input: &str, f: F) -> isize
 where
     F: Fn(&Range, &Range) -> bool,
 {
@@ -15,7 +15,7 @@ where
                 0
             }
         })
-        .sum()
+        .sum::<usize>() as isize
 }
 
 pub fn includes_superset((lo1, hi1): &Range, (lo2, hi2): &Range) -> bool {
