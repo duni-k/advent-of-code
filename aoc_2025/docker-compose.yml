@@ -13,7 +13,3 @@ services:
     environment:
       - MIX_ENV=dev
     command: ["iex", "-S", "mix"]
-    develop:
-      watch:
-        - path: lib/
-          action: rebuild

@@ -1,4 +1,4 @@
-defmodule AdventOfCode.Client do
+defmodule AOC.Client do
   @moduledoc """
   A simple HTTP client for fetching content from the Advent of Code website
   using a session cookie.
@@ -8,15 +8,6 @@ defmodule AdventOfCode.Client do
 
   @doc """
   Fetches the content of a given path on the Advent of Code website.
-  ## Parameters
-    - `path`: The path to fetch (e.g., `/2025/day/1/input`).
-    - `session_cookie`: The session cookie obtained after logging in.
-
-  ## Examples
-
-      iex> AdventOfCode.Client.fetch("/2025/day/1/input", "your-session-cookie")
-      {:ok, "content of the page"}
-
   """
   def fetch(day, session_cookie) do
     url = "#{@aoc_url}/#{day}/input"

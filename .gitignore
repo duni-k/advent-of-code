@@ -3,3 +3,4 @@ debug/
 target/
 Cargo.lock
 **/*.rs.bk
+.env

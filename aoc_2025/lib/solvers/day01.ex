@@ -1,4 +1,23 @@
-defmodule AdventOfCode.Solutions.Day01 do
+defmodule AOC.Solvers.Day01 do
+  def part1(input) do
+    solve(input, fn offset, {current, count} ->
+      next = Integer.mod(current + offset, 100)
+      {next, count + if(next == 0, do: 1, else: 0)}
+    end)
+  end
+
+  def part2(input) do
+    solve(input, fn offset, {current, count} ->
+      next_raw = current + offset
+
+      crossings =
+        abs(div(next_raw, 100)) +
+          if current != 0 && next_raw <= 0, do: 1, else: 0
+
+      {Integer.mod(next_raw, 100), count + crossings}
+    end)
+  end
+
   defp parse_input(input) do
     input
     |> String.replace(~r/L|R/, fn
@@ -15,20 +34,5 @@ defmodule AdventOfCode.Solutions.Day01 do
       |> Enum.reduce({50, 0}, reducer)
 
     n_zeros
-  end
-
-  def part1(input) do
-    solve(input, fn offset, {current, count} ->
-      next = Integer.mod(current + offset, 100)
-      {next, count + if(next == 0, do: 1, else: 0)}
-    end)
-  end
-
-  def part2(input) do
-    solve(input, fn offset, {current, count} ->
-      next_raw = current + offset
-      crossings = abs(div(next_raw, 100)) + if current != 0 && next_raw <= 0, do: 1, else: 0
-      {Integer.mod(next_raw, 100), count + crossings}
-    end)
   end
 end

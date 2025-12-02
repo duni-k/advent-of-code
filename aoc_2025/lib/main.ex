@@ -1,5 +1,13 @@
-defmodule AdventOfCode do
-  @doc "Solve Advent of Code"
+defmodule AOC do
+  @moduledoc """
+  Running solvers for Advent of Code.
+
+  Examples:
+  >>> AOC.solve(1)
+  Solution for problem 0101: 1234567890
+  >>> AOC.solve(1, 2)
+  Solution for problem 0102: 9876543210
+  """
   def solve, do: solve(Date.utc_today().day)
 
   def solve(day) when is_integer(day), do: solve(day, 1)
@@ -7,16 +15,24 @@ defmodule AdventOfCode do
   def solve(day, part) when is_integer(day) and is_integer(part) do
     case fetch_or_read_input(day) do
       {:ok, input} ->
-        solution = solve(day, part, input)
-        IO.puts("Solution for problem #{pad(day)}#{pad(part)}: #{solution}")
+        try do
+          start = Time.utc_now()
+          solution = solve!(day, part, input)
+          IO.puts("Solution for problem #{pad(day)}#{pad(part)}: #{solution}")
+
+          IO.puts("Elapsed time: #{Time.diff(Time.utc_now(), start, :millisecond)}ms")
+        rescue
+          UndefinedFunctionError ->
+            IO.puts("Solver for #{pad(day)}#{pad(part)} not implemented.")
+        end
 
       {:error, reason} ->
         IO.puts("Failed fetching input: #{reason}")
     end
   end
 
-  defp solve(day, part, input) do
-    module_name = Module.concat([AdventOfCode.Solutions, "Day#{pad(day)}"])
+  defp solve!(day, part, input) do
+    module_name = Module.concat([AOC.Solvers, "Day#{pad(day)}"])
     function_name = String.to_atom("part#{part}")
 
     apply(module_name, function_name, [input])
@@ -27,13 +43,13 @@ defmodule AdventOfCode do
 
     cond do
       File.exists?(input_file) ->
-        {:ok, File.read!(input_file)}
+        {:ok, File.read!(input_file) |> String.trim()}
 
       is_nil(System.get_env("AOC_COOKIE")) ->
         {:error, "AOC_COOKIE environment variable is not set."}
 
       true ->
-        case AdventOfCode.Client.fetch(day, System.get_env("AOC_COOKIE")) do
+        case AOC.Client.fetch(day, System.get_env("AOC_COOKIE")) do
           {:ok, input} ->
             File.write!(input_file, input)
             {:ok, input}

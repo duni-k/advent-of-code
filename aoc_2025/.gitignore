@@ -23,4 +23,7 @@ elixir_2025-*.tar
 /tmp/
 
 # Ignore the input files for each day
-/input/
+/inputs/
+
+.tool-versions
+.env

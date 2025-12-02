@@ -1,6 +1,6 @@
-defmodule AdventOfCode.Utils.InputParserTest do
+defmodule AOC.Utils.InputParserTest do
   use ExUnit.Case
-  alias AdventOfCode.InputParser
+  alias AOC.InputParser
 
   describe "lines/1" do
     test "splits input into trimmed lines" do

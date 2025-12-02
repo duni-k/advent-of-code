@@ -1,7 +1,7 @@
-defmodule AdventOfCode.DayTemplateTest do
+defmodule AOC.DayTemplateTest do
   use ExUnit.Case
 
-  alias AdventOfCode.DayTemplate
+  alias AOC.DayTemplate
 
   @sample_input """
   """
