@@ -20,7 +20,9 @@ defmodule AOC do
           solution = solve!(day, part, input)
           IO.puts("Solution for problem #{pad(day)}#{pad(part)}: #{solution}")
 
-          IO.puts("Elapsed time: #{Time.diff(Time.utc_now(), start, :millisecond)}ms")
+          IO.puts(
+            "Elapsed time: #{Time.diff(Time.utc_now(), start, :millisecond)}ms"
+          )
         rescue
           UndefinedFunctionError ->
             IO.puts("Solver for #{pad(day)}#{pad(part)} not implemented.")
