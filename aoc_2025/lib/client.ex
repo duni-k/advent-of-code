@@ -17,8 +17,9 @@ defmodule AOC.Client do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
         {:ok, body |> String.trim()}
 
-      {:ok, %HTTPoison.Response{status_code: status_code}} ->
-        {:error, "HTTP request failed with status: #{status_code}"}
+      {:ok, %HTTPoison.Response{status_code: status_code, body: body}} ->
+        {:error,
+         "HTTP request failed with status: #{status_code}, reason: #{body}"}
 
       {:error, %HTTPoison.Error{reason: reason}} ->
         {:error, "HTTP request failed: #{inspect(reason)}"}

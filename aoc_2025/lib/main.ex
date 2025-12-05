@@ -1,12 +1,6 @@
 defmodule AOC do
   @moduledoc """
   Running solvers for Advent of Code.
-
-  Examples:
-  >>> AOC.solve(1)
-  Solution for problem 0101: 1234567890
-  >>> AOC.solve(1, 2)
-  Solution for problem 0102: 9876543210
   """
   def solve, do: solve(Date.utc_today().day)
 
