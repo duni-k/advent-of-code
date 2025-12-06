@@ -15,7 +15,7 @@ defmodule AOC.Client do
 
     case HTTPoison.get(url, headers) do
       {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
-        {:ok, body |> String.trim()}
+        {:ok, body |> String.trim_trailing()}
 
       {:ok, %HTTPoison.Response{status_code: status_code, body: body}} ->
         {:error,
