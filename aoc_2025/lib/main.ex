@@ -36,7 +36,6 @@ defmodule AOC do
 
   defp fetch_or_read_input(day) do
     input_file = "inputs/day#{pad(day)}.txt"
-    # input_file = "inputs/test"
 
     cond do
       File.exists?(input_file) ->
