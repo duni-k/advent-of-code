@@ -9,18 +9,13 @@ defmodule AOC do
   def solve(day, part) when is_integer(day) and is_integer(part) do
     case fetch_or_read_input(day) do
       {:ok, input} ->
-        try do
-          start = Time.utc_now()
-          solution = solve!(day, part, input)
-          IO.puts("Solution for problem #{pad(day)}#{pad(part)}: #{solution}")
+        start = Time.utc_now()
+        solution = solve!(day, part, input)
+        IO.puts("Solution for problem #{pad(day)}#{pad(part)}: #{solution}")
 
-          IO.puts(
-            "Elapsed time: #{Time.diff(Time.utc_now(), start, :millisecond)}ms"
-          )
-        rescue
-          UndefinedFunctionError ->
-            IO.puts("Solver for #{pad(day)}#{pad(part)} not implemented.")
-        end
+        IO.puts(
+          "Elapsed time: #{Time.diff(Time.utc_now(), start, :millisecond)}ms"
+        )
 
       {:error, reason} ->
         IO.puts("Failed fetching input: #{reason}")
