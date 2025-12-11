@@ -1,4 +1,4 @@
-defmodule AOC.Solvers.Day01 do
+defmodule AOCSolvers.Day01 do
   def part1(input) do
     solve(input, fn offset, {current, count} ->
       next = Integer.mod(current + offset, 100)

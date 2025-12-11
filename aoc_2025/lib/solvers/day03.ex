@@ -1,4 +1,4 @@
-defmodule AOC.Solvers.Day03 do
+defmodule AOCSolvers.Day03 do
   def part1(input) do
     solve(input, &best_joltage(&1, 2))
   end

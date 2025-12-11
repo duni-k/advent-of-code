@@ -1,4 +1,4 @@
-defmodule AOC.Solvers.Day04 do
+defmodule AOCSolvers.Day04 do
   @adjacent MapSet.new([
               {0, 1},
               {0, -1},

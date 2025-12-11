@@ -1,4 +1,4 @@
-defmodule AOC.Solvers.Day05 do
+defmodule AOCSolvers.Day05 do
   def part1(input) do
     [first, last] =
       input

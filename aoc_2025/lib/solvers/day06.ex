@@ -1,4 +1,4 @@
-defmodule AOC.Solvers.Day06 do
+defmodule AOCSolvers.Day06 do
   def part1(input) do
     [operators | operand_rows] =
       String.split(input, "\n", trim: true) |> Enum.reverse()

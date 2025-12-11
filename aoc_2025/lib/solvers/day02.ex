@@ -1,4 +1,4 @@
-defmodule AOC.Solvers.Day02 do
+defmodule AOCSolvers.Day02 do
   def part1(input) do
     solve(input, &repeated?(&1, 2))
   end

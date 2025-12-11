@@ -1,4 +1,4 @@
-defmodule AOC.Solvers.Day08 do
+defmodule AOCSolvers.Day08 do
   defmodule Point do
     defstruct [:x, :y, :z]
 

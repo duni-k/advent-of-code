@@ -1,4 +1,4 @@
-defmodule AOC do
+defmodule AOCRunner do
   @moduledoc """
   Running solvers for Advent of Code.
   """
@@ -23,14 +23,15 @@ defmodule AOC do
   end
 
   defp solve!(day, part, input) do
-    module_name = Module.concat([AOC.Solvers, "Day#{pad(day)}"])
+    module_name = Module.concat([AOCSolvers, "Day#{pad(day)}"])
     function_name = String.to_atom("part#{part}")
 
     apply(module_name, function_name, [input])
   end
 
   defp fetch_or_read_input(day) do
-    input_file = "inputs/day#{pad(day)}.txt"
+    # input_file = "inputs/day#{pad(day)}.txt"
+    input_file = "inputs/test"
 
     cond do
       File.exists?(input_file) ->

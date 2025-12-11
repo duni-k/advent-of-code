@@ -1,4 +1,4 @@
-defmodule AOC.Solvers.Day07 do
+defmodule AOCSolvers.Day07 do
   defmodule Beam do
     defstruct position: 0, timelines: 1
 
