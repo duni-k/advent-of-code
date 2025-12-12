@@ -1,5 +1,5 @@
-defmodule AOC.Solvers.Day09 do
-  alias AOC.Point, as: XY
+defmodule AOCSolvers.Day09 do
+  alias AOCPoint, as: XY
 
   def part1(input) do
     candidates = XY.from_lines(input)
@@ -14,7 +14,11 @@ defmodule AOC.Solvers.Day09 do
   end
 
   def part2(input) do
-    reds = XY.from_lines(input, into: MapSet.new())
+    [first | rest] = XY.from_lines(input)
+
+    reds =
+      [first | Enum.reverse(rest)]
+      |> Enum.reverse()
 
     %{area: area} =
       for {c1, i} <- Enum.with_index(reds),
@@ -22,6 +26,7 @@ defmodule AOC.Solvers.Day09 do
           i < j do
         %{points: {c1, c2}, area: XY.rectangle_area(c1, c2)}
       end
+      |> IO.inspect()
       |> Enum.sort_by(& &1.area, :desc)
       |> Enum.find(&all_green_or_red?(reds, &1.points))
 
