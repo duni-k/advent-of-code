@@ -19,7 +19,7 @@ defmodule AOCSolvers.Day12 do
     def all_transformations(shape) do
       rotations = [
         shape,
-        rotate(shape),
+        shape |> rotate(),
         shape |> rotate() |> rotate(),
         shape |> rotate() |> rotate() |> rotate()
       ]
@@ -32,30 +32,45 @@ defmodule AOCSolvers.Day12 do
   def part1(input) do
     {shapes, regions} = parse(input)
 
-    Enum.count(regions, fn region ->
-      shapes_to_place =
-        region.quantities
-        |> Enum.flat_map(fn {idx, quantity} ->
-          List.duplicate(shapes[idx], quantity)
-        end)
-        |> Enum.sort_by(&MapSet.size(&1.coords), :desc)
+    shapes_with_transforms =
+      Map.new(shapes, fn {idx, shape} ->
+        {idx,
+         %{
+           original: shape,
+           transformations: Shape.all_transformations(shape)
+         }}
+      end)
 
-      fits_in_region?(shapes_to_place, region)
-    end)
+    regions
+    |> Task.async_stream(
+      fn region ->
+        shapes_to_place =
+          region.quantities
+          |> Enum.flat_map(fn {idx, quantity} ->
+            List.duplicate(shapes_with_transforms[idx], quantity)
+          end)
+          |> Enum.sort_by(&MapSet.size(&1.original.coords), :desc)
+
+        if fits_in_region?(shapes_to_place, region), do: 1, else: 0
+      end,
+      max_concurrency: System.schedulers_online(),
+      timeout: :infinity
+    )
+    |> Enum.reduce(0, fn {:ok, result}, acc -> acc + result end)
   end
 
   defp fits_in_region?([], _region), do: true
 
   defp fits_in_region?(shapes, region) do
-    total_area_needed = Enum.sum_by(shapes, &MapSet.size(&1.coords))
+    total_area_needed = Enum.sum_by(shapes, &MapSet.size(&1.original.coords))
     available_area = region.width * region.height - MapSet.size(region.coords)
 
     total_area_needed <= available_area and
       fits_with_backtracking?(shapes, region)
   end
 
-  defp fits_with_backtracking?([shape | rest], region) do
-    Enum.any?(Shape.all_transformations(shape), fn transformed ->
+  defp fits_with_backtracking?([shape_with_transforms | rest], region) do
+    Enum.any?(shape_with_transforms.transformations, fn transformed ->
       try_all_positions(transformed, rest, region)
     end)
   end

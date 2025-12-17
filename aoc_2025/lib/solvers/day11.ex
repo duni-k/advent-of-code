@@ -5,22 +5,20 @@ defmodule AOCSolvers.Day11 do
     |> Enum.count()
   end
 
-  defp traverse(nodes, root),
-    do: traverse(nodes, root, MapSet.new())
+  defp traverse(graph, root),
+    do: traverse(graph, root, MapSet.new())
 
-  defp traverse(_, "out", visited) do
-    if(MapSet.member?(visited, "dac") and MapSet.member?(visited, "fft")) do
-      [visited]
-    else
-      []
-    end
-  end
+  defp traverse(_, "out", visited), do: visited
 
   defp traverse(nodes, current_node, visited) do
-    update = MapSet.put(visited, current_node)
-    unvisited = Enum.reject(nodes[current_node], &MapSet.member?(visited, &1))
+    IO.inspect(current_node, label: "Current Node")
+    IO.inspect(nodes, label: "Nodes")
 
-    for node <- unvisited,
+    update =
+      MapSet.put(visited, current_node) |> IO.inspect(label: "Visited Nodes")
+
+    for node <- nodes[current_node],
+        not MapSet.member?(visited, node),
         reduce: [] do
       paths ->
         traverse(nodes, node, update) ++ paths
@@ -30,6 +28,10 @@ defmodule AOCSolvers.Day11 do
   def part2(input) do
     parse_graph(input)
     |> traverse("svr")
+    |> IO.inspect()
+    |> Enum.filter(fn path ->
+      MapSet.member?(path, "dac") and MapSet.member?(path, "fft")
+    end)
     |> Enum.count()
   end
 
@@ -37,7 +39,7 @@ defmodule AOCSolvers.Day11 do
     String.split(input, "\n", trim: true)
     |> Enum.reduce(%{}, fn line, acc ->
       [device_name, outputs] = String.split(line, ":")
-      Map.put_new(acc, device_name, String.split(outputs))
+      Map.put(acc, device_name, String.split(outputs))
     end)
   end
 end
